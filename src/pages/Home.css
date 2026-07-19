@@ -1,0 +1,983 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --bg-cream: #f4f3ef; /* Exact soft luxury tone */
+  --dark-color: #111111;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-cream);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* --- HERO CSS --- */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+}
+
+.slider-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  object-position: center;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+  z-index: 1; 
+}
+
+.navbar, .hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.custom-navbar .logo-text {
+  font-family: var(--font-serif);
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+}
+
+.custom-navbar .nav-link {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85) !important;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link.active, 
+.custom-navbar .nav-link:hover {
+  color: #ffffff !important;
+}
+
+.call-btn {
+  font-size: 0.9rem;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.hero-content {
+  flex-grow: 1;
+  padding-bottom: 80px;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 6vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  margin-bottom: 3.5rem;
+}
+
+.hero-title .extraordinary-text {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Floating Search Bar Styling */
+.search-card-container {
+  width: 90%;
+  max-width: 1050px;
+  z-index: 10;
+  margin-top: auto;
+}
+
+.find-journey-badge {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: var(--dark-color);
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  padding: 10px 32px;
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.04);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.search-card {
+  border-radius: 40px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.search-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.icon-style {
+  font-size: 0.85rem;
+}
+
+.val-text {
+  font-size: 0.95rem;
+  color: var(--dark-color);
+}
+
+.search-submit-btn {
+  background-color: var(--dark-color);
+  color: white;
+  border: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.search-submit-btn:hover {
+  background-color: #222222;
+}
+
+/* --- EXPERIENCES CSS --- */
+.experiences-section {
+  background-color: var(--bg-cream);
+  min-height: 60vh;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--dark-color);
+  font-weight: 500;
+}
+
+.filter-tabs .filter-btn {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.filter-tabs .filter-btn.active {
+  color: var(--dark-color) !important;
+}
+
+.active-line {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--dark-color);
+}
+
+.experience-card {
+  height: 420px;
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.card-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+  transition: opacity 0.3s ease;
+}
+
+.experience-card:hover .card-gradient-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+}
+
+.country-tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.card-main-title {
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  font-family: var(--font-sans);
+  margin-top: 2px !important;
+}
+
+.card-price {
+  font-size: 0.85rem;
+}
+
+/* --- LUXURY PACKAGES STYLING --- */
+.luxury-packages-section {
+  background-color: var(--bg-cream, #f7f6f2);
+  width: 100%;
+}
+
+.luxury-title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  color: #111;
+  font-weight: 500;
+}
+
+.view-all-btn {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.mosaic-grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.mosaic-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.mosaic-col-first {
+  padding-top: 120px; 
+}
+
+.mosaic-card {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0px; 
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-tall {
+  height: 480px;
+}
+
+.card-short {
+  height: 220px;
+}
+
+.mosaic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.05) 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  transition: background 0.3s ease;
+  z-index: 1;
+}
+
+.mosaic-card:hover .mosaic-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.1) 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+.mosaic-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mosaic-content h4 {
+  font-family: var(--font-serif, serif);
+  font-size: 1.35rem;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.diamond-badge-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.diamond-badge {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mosaic-card:hover .diamond-badge {
+  background-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.diamond-badge span {
+  transform: rotate(-45deg);
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* --- SECTION 4: EXCLUSIVE SERVICES STYLING --- */
+.services-fleet-section {
+  background-color: var(--bg-cream, #f7f6f2);
+}
+
+.services-main-heading {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  color: #111;
+}
+
+.service-card {
+  height: 280px; 
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.service-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.service-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.service-card:hover .service-overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.service-text-container {
+  pointer-events: none;
+}
+
+.service-title {
+  font-family: var(--font-serif, "Playfair Display", serif) !important;
+  font-size: clamp(1.4rem, 2vw, 1.8rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 4px; 
+  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* --- SECTION 5: WHY NOVA TRAILS STYLING --- */
+.why-nova-section {
+  background-color: var(--bg-cream);
+}
+
+.why-main-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--dark-color);
+  font-weight: 500;
+}
+
+.why-top-desc {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  max-width: 480px;
+}
+
+.why-banner {
+  height: 460px;
+  width: 100%;
+  background-size: cover;
+  background-position: center 30%;
+  border-radius: 0px;
+}
+
+.banner-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.banner-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  letter-spacing: 0.5px;
+}
+
+/* --- SECTION 6: NEWSLETTER STYLING --- */
+.newsletter-section {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.newsletter-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 35%; 
+  z-index: 1;
+}
+
+.newsletter-light-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+  z-index: 2;
+}
+
+.newsletter-title {
+  font-family: var(--font-serif, "Playfair Display", serif) !important;
+  font-size: clamp(2.2rem, 4vw, 3.5rem) !important;
+  line-height: 1.2 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.newsletter-subtitle {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.newsletter-input-pill {
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50px;
+  height: 56px;
+  transition: all 0.3s ease;
+}
+
+.newsletter-field::placeholder {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.95rem;
+}
+
+.newsletter-field {
+  color: #ffffff !important;
+  font-size: 0.95rem;
+}
+
+.newsletter-subscribe-btn {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: none !important;
+  height: 100%;
+  font-family: var(--font-serif, "Playfair Display", serif) !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 2px;
+  padding: 0 35px !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease !important;
+}
+
+.newsletter-subscribe-btn:hover {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  transform: scale(0.98);
+}
+
+.max-w-600 {
+  max-width: 620px;
+}
+
+/* --- SECTION 7: TESTIMONIALS --- */
+.testimonial-card {
+  background-color: rgba(255, 255, 255, 0.4); 
+  backdrop-filter: blur(20px); 
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 28px;
+  padding: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.testimonial-card:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); 
+}
+
+.quote-icon {
+  color: rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+}
+
+.testimonial-text {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.star-icon {
+  color: #ffc107;
+  font-size: 0.9rem;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+
+.testimonial-author {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.testimonials-backdrop-img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+
+/* --- SECTION 8: CONTACT FORM STYLING --- */
+.contact-section {
+  position: relative;
+  width: 100%;
+  min-height: 620px; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.contact-glass-card {
+  background-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.contact-card-title {
+  font-family: var(--font-serif);
+  color: var(--dark-color);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.contact-input {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  color: var(--dark-color) !important;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  transition: all 0.3s ease !important;
+}
+
+.contact-input::placeholder {
+  color: rgba(17, 17, 17, 0.7);
+}
+
+.contact-input:focus {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.call-back-btn {
+  background-color: var(--dark-color) !important;
+  border: none !important;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  padding: 12px 0 !important;
+  transition: background-color 0.3s ease;
+}
+
+.call-back-btn:hover {
+  background-color: #252525 !important;
+}
+
+.max-w-400 {
+  max-width: 420px;
+}
+
+
+/* ==========================================================================
+   --- SYSTEM-WIDE ADVANCED RESPONSIVE MEDIA QUERIES (MOBILE FIXES) ---
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .border-start-md {
+    border-left: 1px solid #e9ecef !important;
+  }
+}
+
+/* Tablets and Mobile Devices General */
+@media (max-width: 992px) {
+  .hero-container {
+    height: auto;
+    min-height: 100vh;
+  }
+  .hero-content {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+  .mosaic-grid-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .mosaic-col-first {
+    padding-top: 0px;
+  }
+}
+
+/* Mobile Screens Specific (Smartphones) */
+@media (max-width: 767px) {
+  /* Navbar adjust */
+  .custom-navbar {
+    padding: 15px 20px !important;
+  }
+  .custom-navbar .call-btn {
+    padding: 6px 16px !important;
+    font-size: 0.8rem;
+  }
+
+  /* Hero adjustments */
+  .hero-title {
+    margin-bottom: 2.2rem;
+  }
+
+  /* Floating Search Bar Restructuring for Mobile */
+  .search-card-container {
+    width: 95%;
+    margin-top: 15px;
+  }
+  .find-journey-badge {
+    padding: 8px 24px;
+    font-size: 0.8rem;
+    top: -19px;
+  }
+  .search-card {
+    border-radius: 24px;
+    padding: 25px 20px 20px 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+  }
+  .search-card .row {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+  .search-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .search-item:last-of-type {
+    border-bottom: none !important;
+  }
+  .search-submit-btn {
+    width: 100%;
+    border-radius: 30px;
+    height: 48px;
+    margin-top: 8px;
+  }
+
+  /* Experience Section Fixes */
+  .filter-tabs {
+    gap: 15px !important;
+  }
+  .filter-tabs .filter-btn {
+    font-size: 1.05rem;
+  }
+  .experience-card {
+    height: 360px;
+  }
+
+  /* Why Section adjustments */
+  .why-main-title {
+    text-align: center;
+    margin-bottom: 15px !important;
+  }
+  .why-top-desc {
+    text-align: center;
+    max-width: 100%;
+  }
+  .why-banner {
+    height: 280px;
+  }
+
+  /* Service Card Height Adjust */
+  .service-card {
+    height: 200px;
+  }
+  .service-title {
+    letter-spacing: 2px;
+  }
+
+  /* Contact and Testimonial Spacing */
+  .contact-section {
+    min-height: 520px;
+  }
+  .contact-glass-card {
+    padding: 35px 20px !important;
+  }
+  .testimonial-card {
+    padding: 30px 20px;
+  }
+}
+
+/* Extra Small Mobile Devices (Below 576px) */
+@media (max-width: 576px) {
+  .luxury-title {
+    text-align: center;
+  }
+  .view-all-btn {
+    display: block;
+    margin: 0 auto 25px auto;
+  }
+
+  /* Luxury Mosaic Stack layout */
+  .mosaic-grid-wrapper {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card-tall {
+    height: 320px;
+  }
+  .card-short {
+    height: 160px;
+  }
+  .mosaic-content {
+    padding: 20px;
+  }
+  .diamond-badge {
+    width: 75px;
+    height: 75px;
+  }
+  .diamond-badge span {
+    font-size: 0.65rem;
+  }
+
+  /* Newsletter Input Bar stacking configuration for ultra small screens */
+  .newsletter-input-pill {
+    flex-direction: column;
+    height: auto;
+    background: transparent !important;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    gap: 12px;
+    padding: 0 !important;
+  }
+  .newsletter-field {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 30px;
+    height: 52px;
+    text-align: center;
+    width: 100%;
+  }
+  .newsletter-subscribe-btn {
+    width: 100%;
+    height: 52px;
+    border-radius: 30px !important;
+    padding: 0 !important;
+  }
+}
+
+
+
+
+
+
+
+
+/* Nova Club Shared Journey Layouts */
+.bg-light-bone {
+    background-color: #f4f1ea !important;
+    color: #111111;
+}
+.border-dark-clean {
+    border: 1px solid #111111;
+}
+.text-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+}
+.text-serif-italic {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+}
+
+/* Premium Dynamic Popup Overlays */
+.luxury-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(17, 17, 17, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.luxury-modal-content {
+    background: #fdfcf9;
+    color: #111111;
+    border: 1px solid #111111;
+    width: 90%;
+    max-width: 600px;
+    padding: 2.5rem;
+    position: relative;
+    max-height: 85vh;
+    display: flex;
+    flex-column: column;
+}
+.close-popup-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #111111;
+}
+
+/* Minimal Multi-Step Form Layout Elements */
+.form-editorial-label {
+    display: block;
+    font-size: 0.75rem;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    color: #a0a0a0;
+}
+.form-editorial-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444444;
+    color: #ffffff;
+    padding: 0.6rem 0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+.form-editorial-input:focus {
+    border-bottom-color: #ffffff;
+}
+.form-editorial-input option {
+    background: #111111;
+    color: #ffffff;
+}
+.booking-action-btn {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #ffffff;
+    padding: 0.75rem 2rem;
+    font-family: sans-serif;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.booking-action-btn:hover {
+    background: transparent;
+    color: #ffffff;
+}
