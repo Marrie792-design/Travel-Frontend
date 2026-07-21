@@ -191,7 +191,7 @@ const Home = () => {
   // Universal Email / Reservation Backend Dispatcher
   const sendTripNotification = async (payload) => {
     try {
-      const response = await fetch('http://localhost:5000/api/send-reservation', {
+      const response = await fetch('https://travel-backend-blue.vercel.app/api/send-reservation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -257,7 +257,7 @@ const Home = () => {
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/send-reservation', {
+      const res = await fetch('https://travel-backend-blue.vercel.app/api/send-reservation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyData)
@@ -320,7 +320,7 @@ const Home = () => {
 
     setIsNewsletterLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/newsletter', {
+      const res = await fetch('https://travel-backend-blue.vercel.app/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: newsletterEmail }),
@@ -348,7 +348,7 @@ const Home = () => {
 
     setIsContactLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch('https://travel-backend-blue.vercel.app/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactData),

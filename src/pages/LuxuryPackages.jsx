@@ -268,7 +268,7 @@ const LuxuryPackages = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/deploy-blueprint', {
+      const response = await fetch('https://travel-backend-blue.vercel.app/api/deploy-blueprint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

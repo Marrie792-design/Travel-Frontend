@@ -164,7 +164,7 @@ const handleReservationSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://localhost:5000/api/reserve', {
+    const response = await fetch('https://travel-backend-blue.vercel.app/api/reserve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -204,7 +204,7 @@ const handleCallSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://localhost:5000/api/schedule-call', {
+    const response = await fetch('https://travel-backend-blue.vercel.app/api/schedule-call', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
