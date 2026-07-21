@@ -1,0 +1,120 @@
+:root {
+  --gold-accent: #c5a059;
+  --gold-hover: #b08d46;
+  --light-bg: #ffffff;
+  --card-bg: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+}
+
+.about-page {
+  background-color: var(--light-bg);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+/* Typography & Utilities */
+.text-gold {
+  color: var(--gold-accent) !important;
+}
+
+.sub-title {
+  color: var(--gold-accent);
+  letter-spacing: 3px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.tracking-widest {
+  letter-spacing: 4px;
+}
+
+.tracking-wider {
+  letter-spacing: 2px;
+}
+
+.max-w-700 {
+  max-width: 700px;
+}
+
+.max-w-600 {
+  max-width: 600px;
+}
+
+/* Light Cards Styling */
+.about-light-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-light-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.about-feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.about-feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--gold-accent);
+}
+
+.icon-wrapper {
+  background: rgba(197, 160, 89, 0.12);
+  color: var(--gold-accent);
+  font-size: 1.8rem;
+}
+
+/* Images */
+.about-image-wrapper .main-img {
+  border: 1px solid var(--border-color);
+  object-fit: cover;
+  min-height: 380px;
+  width: 100%;
+}
+
+.light-badge {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+}
+
+/* CTA Card */
+.about-cta-card {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border: 1px solid var(--border-color);
+}
+
+/* Buttons */
+.btn-gold {
+  background-color: var(--gold-accent);
+  color: #ffffff;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background-color: var(--gold-hover);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+}
+
+.back-btn {
+  border-color: var(--border-color);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: var(--text-main);
+  color: #ffffff;
+  border-color: var(--text-main);
+}

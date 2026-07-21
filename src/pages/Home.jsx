@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiMapPin, FiCompass, FiCalendar, FiUsers, FiSearch, FiX, FiCheck, FiChevronRight, FiUser, FiHeart, FiClock, FiDollarSign, FiInfo } from 'react-icons/fi';
+import {
+  FiMapPin, FiCompass, FiCalendar, FiUsers, FiSearch, FiX,
+  FiCheck, FiChevronRight, FiUser, FiHeart, FiClock, FiDollarSign, FiInfo
+} from 'react-icons/fi';
 import { FaStar, FaQuoteLeft } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
+import { useNavigate, Link } from 'react-router-dom';
 
 // Animation Variants for Staggered Grid Content
 const staggerContainer = {
@@ -24,6 +28,8 @@ const fadeInUp = {
 };
 
 const Home = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Pakistan');
   const [index, setIndex] = useState(0);
 
@@ -32,8 +38,16 @@ const Home = () => {
     {
       id: 'default-1',
       title: "HUNZA VALLEY LUXE",
-      img: "https://images.unsplash.com/photo-1624531054366-027598813353?q=80&w=600",
-      fullTripData: { id: 101, country: 'Pakistan', title: 'HUNZA VALLEY LUXE', price: '$1,800', img: 'https://images.unsplash.com/photo-1624531054366-027598813353?q=80&w=600&auto=format&fit=crop', desc: 'Experience the premium cultural retreat under Mount Rakaposhi.', days: ['Arrival in Gilgit & luxury transfer to Hunza', 'Private tour of Altit & Baltit forts', 'Attabad Lake high-speed luxury boating', 'Departure via scenic helicopter flight'] }
+      img: "https://media.istockphoto.com/id/1257163955/photo/northern-areas-of-pakistan.webp?a=1&b=1&s=612x612&w=0&k=20&c=Ln5xTGOaAo0WY8_yX_edoa1XpvQGfoP29d3-HFT-sbw=",
+      fullTripData: {
+        id: 101,
+        country: 'Pakistan',
+        title: 'HUNZA VALLEY LUXE',
+        price: '$1,800',
+        img: 'https://media.istockphoto.com/id/1257163955/photo/northern-areas-of-pakistan.webp?a=1&b=1&s=612x612&w=0&k=20&c=Ln5xTGOaAo0WY8_yX_edoa1XpvQGfoP29d3-HFT-sbw=',
+        desc: 'Experience the premium cultural retreat under Mount Rakaposhi.',
+        days: ['Arrival in Gilgit & luxury transfer to Hunza', 'Private tour of Altit & Baltit forts', 'Attabad Lake high-speed luxury boating', 'Departure via scenic helicopter flight']
+      }
     }
   ]);
 
@@ -43,17 +57,9 @@ const Home = () => {
   const [packageUserInfo, setPackageUserInfo] = useState({ name: '', email: '', phone: '', numPeople: 1 });
   const [packageSuccessMsg, setPackageSuccessMsg] = useState(false);
 
+  // States for Book With Us (Custom Trip Builder Wizard)
   const [isTripBuilderOpen, setIsTripBuilderOpen] = useState(false);
   const [builderStep, setBuilderStep] = useState(1);
-
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-
-  // States for Nova Club's "View Ticket" Interactive Flow
-  const [selectedTicketTrip, setSelectedTicketTrip] = useState(null);
-  const [ticketUserInfo, setTicketUserInfo] = useState({ name: '', email: '', phone: '', numPeople: 1 });
-  const [ticketSuccess, setTicketSuccess] = useState(false);
-
-  // States for Custom Trip Builder Wizard
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedPlace, setSelectedPlace] = useState("");
   const [tripDate, setTripDate] = useState("");
@@ -61,9 +67,24 @@ const Home = () => {
   const [numPeople, setNumPeople] = useState(1);
   const [wizardUserInfo, setWizardUserInfo] = useState({ name: '', email: '', phone: '' });
 
+  // States for Nova Club & Tickets
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [selectedTicketTrip, setSelectedTicketTrip] = useState(null);
+  const [ticketUserInfo, setTicketUserInfo] = useState({ name: '', email: '', phone: '', numPeople: 1 });
+  const [ticketSuccess, setTicketSuccess] = useState(false);
+
+  // Newsletter & Contact Form States
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [isNewsletterLoading, setIsNewsletterLoading] = useState(false);
+
+  const [contactData, setContactData] = useState({ name: '', phone: '' });
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [isContactLoading, setIsContactLoading] = useState(false);
+
   const todayDateStr = new Date().toISOString().split('T')[0];
 
-  // Enriched Upcoming Trips Data Structure
+  // Enriched Upcoming Trips Data Structure (Nova Club)
   const upcomingTrips = [
     {
       id: 'up-1',
@@ -81,13 +102,13 @@ const Home = () => {
       date: "05th Oct 2026",
       duration: "4 Days",
       price: "$1,800",
-      hotelImg: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=500&auto=format&fit=crop",
+      hotelImg: "https://media.istockphoto.com/id/1257163955/photo/northern-areas-of-pakistan.webp?a=1&b=1&s=612x612&w=0&k=20&c=Ln5xTGOaAo0WY8_yX_edoa1XpvQGfoP29d3-HFT-sbw=",
       menuInfo: "Organic Farm-to-Table Breakfasts, Traditional Walnut Cakes & Mountain Sage Tea",
       activities: "Altit & Baltit Fort VIP Guided Access, Attabad Lake Jet Skiing & Eagle's Nest Sunset Photography"
     }
   ];
 
-  // Enhanced Favorite Toggle Handler
+  // Favorite Toggle Handler
   const toggleFavoriteTrip = (tripObj) => {
     const exists = savedExperiences.some(item => item.title === tripObj.title);
     if (exists) {
@@ -104,23 +125,37 @@ const Home = () => {
 
   const destDatabase = {
     Pakistan: [
-      { id: 101, country: 'Pakistan', title: 'HUNZA VALLEY LUXE', price: '$1,800', img: 'https://images.unsplash.com/photo-1624531054366-027598813353?q=80&w=600&auto=format&fit=crop', desc: 'Experience the premium cultural retreat under Mount Rakaposhi.', days: ['Arrival in Gilgit & luxury transfer to Hunza', 'Private tour of Altit & Baltit forts', 'Attabad Lake high-speed luxury boating', 'Departure via scenic helicopter flight'] },
-      { id: 102, country: 'Pakistan', title: 'SKARDU GLACIAL TRAILS', price: '$2,200', img: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=600&auto=format&fit=crop', desc: 'Witness the surreal cold deserts and Shangrila resorts.', days: ['Landing at Skardu Airport', 'Boating at Upper Kachura lake', 'Deosai Plains private safari tour', 'Corporate high-tea at Shigar Fort'] }
+      { id: 101, country: 'Pakistan', title: 'HUNZA VALLEY LUXE', price: '$1,800', img: 'https://media.istockphoto.com/id/1257163955/photo/northern-areas-of-pakistan.webp?a=1&b=1&s=612x612&w=0&k=20&c=Ln5xTGOaAo0WY8_yX_edoa1XpvQGfoP29d3-HFT-sbw=', desc: 'Experience the premium cultural retreat under Mount Rakaposhi.', days: ['Arrival in Gilgit & luxury transfer to Hunza', 'Private tour of Altit & Baltit forts', 'Attabad Lake high-speed luxury boating', 'Departure via scenic helicopter flight'] },
+      { id: 102, country: 'Pakistan', title: 'SKARDU GLACIAL TRAILS', price: '$2,200', img: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=600&auto=format&fit=crop', desc: 'Witness the surreal cold deserts and Shangrila resorts.', days: ['Landing at Skardu Airport', 'Boating at Upper Kachura lake', 'Deosai Plains private safari tour', 'Corporate high-tea at Shigar Fort'] },
+      { id: 103, country: 'UAE', title: 'DUBAI DESERT DIAMOND', price: '$3,800', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600&auto=format&fit=crop', desc: 'Experience the ultimate luxury of Burj Al Arab and private dune yachting.', days: ['VIP arrival at Dubai Airport', 'Private yacht cruise at Marina', 'Sunset safari with private chef', 'Helicopter tour over Palm Jumeirah'] },
+      { id: 104, country: 'Turkey', title: 'CAPPADOCIA SKYWARD JOURNEY', price: '$2,900', img: 'https://images.unsplash.com/photo-1772865024393-ab25d0061bc2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Q0FQUEFET0NJQSUyMFNLWVdBUkQlMjBKT1VSTkVZfGVufDB8fDB8fHww', desc: 'Fly over ancient fairy chimneys in a private hot air balloon.', days: ['Arrival at luxury cave suite', 'Private sunrise balloon expedition', 'Guided tour of underground cities', 'Wine tasting in volcanic valleys'] },
+      { id: 105, country: 'Japan', title: 'KYOTO CHERRY BLOSSOM ELITE', price: '$4,500', img: 'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=600&auto=format&fit=crop', desc: 'Immerse yourself in traditional tea ceremonies and private Zen garden tours.', days: ['Arrival in Kyoto traditional Ryokan', 'Private Geisha cultural performance', 'Bamboo forest meditation tour', 'Michelin-star Kaiseki dinner'] },
+      { id: 106, country: 'Italy', title: 'AMALFI COAST VELVET ESCAPE', price: '$5,200', img: 'https://media.istockphoto.com/id/1326101971/photo/famous-fiordo-di-furore-beach-at-amalfi-coast-campania-italy.webp?a=1&b=1&s=612x612&w=0&k=20&c=h2t8dbT3N9HVgHI4tSMbADnEUv3BJU6Rbn3qghBva0I=', desc: 'Luxury cliffside villas overlooking the sparkling Tyrrhenian Sea.', days: ['Private transfer to Positano villa', 'Yacht tour along Capri islands', 'Cooking masterclass with local chef', 'Sunset dinner at cliffside terrace'] }
     ],
     Switzerland: [
-      { id: 201, country: 'Switzerland', title: 'SWISS ALPINE ESCAPE', price: '$2,500', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop', desc: 'Premium chalets and private ski passes in Zermatt.', days: ['Zurich Airport private limousine meetup', 'Zermatt eco-resort check-in', 'Private skiing session with world champions', 'Panoramic glacier helicopter tour'] }
+      { id: 201, country: 'Switzerland', title: 'SWISS ALPINE ESCAPE', price: '$2,500', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop', desc: 'Premium chalets and private ski passes in Zermatt.', days: ['Zurich Airport private limousine meetup', 'Zermatt eco-resort check-in', 'Private skiing session with world champions', 'Panoramic glacier helicopter tour'] },
+      { id: 202, country: 'Switzerland', title: 'LUCERNE LAKE SERENITY', price: '$3,100', img: 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=600&auto=format&fit=crop', desc: 'Breathtaking lakeside retreats and private boat cruises through the heart of Switzerland.', days: ['Arrival at Lucerne luxury waterfront suite', 'Private sunset yacht cruise on Lake Lucerne', 'Mount Pilatus exclusive VIP cable car ride', 'Traditional Swiss chocolate atelier masterclass'] },
+      { id: 203, country: 'Switzerland', title: 'ST. MORITZ WINTER GLAMOUR', price: '$4,200', img: 'https://images.unsplash.com/photo-1482862549707-f63cb32c5fd9?q=80&w=600&auto=format&fit=crop', desc: 'Experience elite winter sports and high-end shopping in the legendary St. Moritz.', days: ['Private jet transfer to Samedan Airport', 'Check-in to five-star palace resort', 'Horse-drawn carriage tour of frozen lake', 'Gourmet fine dining in private mountain cabin'] },
+      { id: 204, country: 'Switzerland', title: 'GRINDELWALD CLIFFSIDE ADVENTURE', price: '$2,800', img: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=600&auto=format&fit=crop', desc: 'Unmatched views of the Eiger North Face from your private cliffside balcony.', days: ['Arrival in Interlaken and private train transit', 'First Cliff Walk private photography tour', 'Eiger glacier hiking with expert guide', 'Relaxation in mountain thermal infinity pool'] }
     ],
     Iceland: [
-      { id: 301, country: 'Iceland', title: 'AURORA GLASSHOUSE', price: '$4,100', img: 'https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?q=80&w=600&auto=format&fit=crop', desc: 'Sleep under Northern Lights in customized transparent luxury domes.', days: ['Reykjavík golden circle customized drive', 'Blue Lagoon private spa reservation', 'Ice Cave dynamic exploration', 'Superjeep hunting for Northern Lights'] }
+      { id: 301, country: 'Iceland', title: 'AURORA GLASSHOUSE', price: '$4,100', img: 'https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?q=80&w=600&auto=format&fit=crop', desc: 'Sleep under Northern Lights in customized transparent luxury domes.', days: ['Reykjavík golden circle customized drive', 'Blue Lagoon private spa reservation', 'Ice Cave dynamic exploration', 'Superjeep hunting for Northern Lights'] },
+      { id: 302, country: 'Iceland', title: 'VOLCANIC HELI-SAFARI', price: '$4,800', img: 'https://images.unsplash.com/photo-1476610182048-b716b8518aae?q=80&w=600&auto=format&fit=crop', desc: 'Exclusive helicopter tours over active volcanoes and black sand beaches.', days: ['Private helicopter transfer from Reykjavík', 'Aerial tour of Fagradalsfjall volcano', 'VIP picnic on Diamond Beach', 'Exclusive access to geothermal secret lagoon'] },
+      { id: 303, country: 'Iceland', title: 'ARCTIC WHALE & GLACIER LODGE', price: '$3,900', img: 'https://media.istockphoto.com/id/2183614993/photo/picturesque-village-on-coast-of-greenland-colorful-houses-in-tasiilaq-east-greenland.webp?a=1&b=1&s=612x612&w=0&k=20&c=NpJC5NA3MwuUzBFoC9fal__b1MHUcnoL21ONtJ7toMA=', desc: 'Stay in a secluded glacier lodge with private whale watching expeditions.', days: ['Arrival at luxury remote glacier lodge', 'Private yacht whale watching in Husavik', 'Guided ice climbing on Vatnajökull', 'Gourmet Nordic dinner by a private chef'] }
     ],
     Norway: [
-      { id: 401, country: 'Norway', title: 'FJORD SUPERYACHT', price: '$5,400', img: 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee?q=80&w=600&auto=format&fit=crop', desc: 'Sail deep inside private fjords with on-board elite chefs.', days: ['Oslo luxury yacht onboarding', 'Fjord cruising through Geirangerfjord', 'Kayaking in glassy crystal waters', 'Seafood gourmet processing experience'] }
+      { id: 401, country: 'Norway', title: 'FJORD SUPERYACHT', price: '$5,400', img: 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee?q=80&w=600&auto=format&fit=crop', desc: 'Sail deep inside private fjords with on-board elite chefs.', days: ['Oslo luxury yacht onboarding', 'Fjord cruising through Geirangerfjord', 'Kayaking in glassy crystal waters', 'Seafood gourmet processing experience'] },
+      { id: 402, country: 'Norway', title: 'LOFOTEN ARCTIC VILLAS', price: '$4,600', img: 'https://images.unsplash.com/photo-1685821085722-2885f04a4610?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fExPRk9URU4lMjBBUkNUSUMlMjBWSUxMQVN8ZW58MHx8MHx8fDA%3D', desc: 'Seafront luxury cabins in the Lofoten Islands with midnight sun photography.', days: ['Transfer to private sea-facing rorbu villa', 'Midnight sun photography masterclass', 'Private RIB boat eagle safari', 'Traditional Nordic fishing and culinary prep'] },
+      { id: 403, country: 'Norway', title: 'TROMSØ AURORA RETREAT', price: '$4,200', img: 'https://images.unsplash.com/photo-1517260739337-6799d239ce83?q=80&w=600&auto=format&fit=crop', desc: 'Dog sledding and arctic dome living under the mesmerizing auroras.', days: ['Check-in to transparent Arctic dome', 'Exclusive husky sledding expedition', 'Sami culture and reindeer feeding experience', 'Private aurora hunting with expert guides'] }
     ],
     Europe: [
-      { id: 501, country: 'Peru', title: 'MACHU PICCHU PRIVÉ', price: '$1,400', img: 'https://images.unsplash.com/photo-1587595431973-160d0d94adb1?q=80&w=600&auto=format&fit=crop', desc: 'Luxury train transfers and heritage VIP access vouchers.', days: ['Cusco colonial suite check-in', 'Hiram Bingham train cruise to Machu Picchu', 'Exclusive expert historical briefing tour', 'Andean wellness spa treatment'] }
+      { id: 501, country: 'Peru', title: 'MACHU PICCHU PRIVÉ', price: '$1,400', img: 'https://images.unsplash.com/photo-1530999811698-221aa9eb1739?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fE1BQ0hVJTIwUElDQ0hVfGVufDB8fDB8fHww', desc: 'Luxury train transfers and heritage VIP access vouchers.', days: ['Cusco colonial suite check-in', 'Hiram Bingham train cruise to Machu Picchu', 'Exclusive expert historical briefing tour', 'Andean wellness spa treatment'] },
+      { id: 502, country: 'France', title: 'PARISIAN CHÂTEAU ELITE', price: '$5,800', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600&auto=format&fit=crop', desc: 'Stay in a historic chateau with exclusive access to Parisian art and couture.', days: ['VIP airport transfer to Versailles-adjacent Château', 'After-hours private tour of the Louvre', 'Exclusive fashion house atelier visit', 'Michelin-star dinner on the Seine river'] },
+      { id: 503, country: 'Greece', title: 'SANTORINI CALDERA YACHTING', price: '$4,500', img: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=600&auto=format&fit=crop', desc: 'Infinity pools, cliffside dining, and private catamaran sailing in the Aegean.', days: ['Helicopter arrival at Oia luxury suite', 'Private sunset catamaran cruise', 'Santorini ancient winery VIP tasting', 'Cliffside romantic private dining'] }
     ],
     Japan: [
-      { id: 601, country: 'Japan', title: 'MOUNT FUJI RETREAT', price: '$3,100', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600&auto=format&fit=crop', desc: 'Private dynamic onsen resorts overlooking iconic volcanic peak vistas.', days: ['Bullet train green-car transfer to Hakone', 'Private ryokan check-in with private onsen', 'Mount Fuji helicopter photo flyover', 'Exclusive Tokyo premium culinary night'] }
+      { id: 601, country: 'Japan', title: 'MOUNT FUJI RETREAT', price: '$3,100', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600&auto=format&fit=crop', desc: 'Private dynamic onsen resorts overlooking iconic volcanic peak vistas.', days: ['Bullet train green-car transfer to Hakone', 'Private ryokan check-in with private onsen', 'Mount Fuji helicopter photo flyover', 'Exclusive Tokyo premium culinary night'] },
+      { id: 602, country: 'Japan', title: 'HOKKAIDO POWDER RESERVE', price: '$4,300', img: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=600&auto=format&fit=crop', desc: 'Elite snowboarding and skiing in the pristine powder snow of Niseko.', days: ['Arrival at Niseko ski-in ski-out luxury chalet', 'Private backcountry skiing with Olympic guide', 'Exclusive snowmobile forest expedition', 'Premium Wagyu beef and sake tasting'] }
     ]
   };
 
@@ -146,9 +181,50 @@ const Home = () => {
     return () => clearInterval(timer);
   }, [images.length]);
 
-  const handlePackageBookSubmit = (e) => {
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // Universal Email / Reservation Backend Dispatcher
+  const sendTripNotification = async (payload) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/send-reservation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (result.success) {
+        console.log('Notification Sent Successfully!');
+      }
+    } catch (error) {
+      console.error('Notification dispatch failed:', error);
+    }
+  };
+
+  // 1️⃣ Experience Section Submit Handler
+  const handlePackageBookSubmit = async (e) => {
     e.preventDefault();
+    const rawPrice = parseFloat(selectedPackage?.price?.replace(/[^0-9.]/g, '') || 0);
+    const totalCalc = rawPrice * (packageUserInfo.numPeople || 1);
+
+    const bodyData = {
+      bookingType: "Experience Booking",
+      title: selectedPackage?.title || "N/A",
+      country: selectedPackage?.country || "N/A",
+      name: packageUserInfo.name,
+      email: packageUserInfo.email,
+      phone: packageUserInfo.phone,
+      numPeople: packageUserInfo.numPeople,
+      totalPrice: `$${totalCalc.toLocaleString()}`
+    };
+
+    await sendTripNotification(bodyData);
     setPackageSuccessMsg(true);
+
     setTimeout(() => {
       setSelectedPackage(null);
       setShowPackageBooking(false);
@@ -157,24 +233,79 @@ const Home = () => {
     }, 3000);
   };
 
-  const handleWizardSubmit = (e) => {
+
+
+  // wizard
+  // 💡 Pass calculatedTotal & basePricePerPerson on submit
+  const handleWizardSubmit = async (e, totalAmount, basePrice) => {
     e.preventDefault();
-    setBuilderStep(4);
-    setTimeout(() => {
-      setIsTripBuilderOpen(false);
-      setBuilderStep(1);
-      setSelectedCountry("");
-      setSelectedPlace("");
-      setTripDate("");
-      setTripTime("");
-      setNumPeople(1);
-      setWizardUserInfo({ name: '', email: '', phone: '' });
-    }, 3000);
+
+    // Backend '/api/send-reservation' route key matching schema
+    const bodyData = {
+      bookingType: "Custom Trip Builder",
+      title: `Custom Trail: ${selectedCountry} (${selectedPlace})`,
+      country: selectedCountry,
+      place: selectedPlace,
+      startDate: tripDate,
+      preferredTime: tripTime,
+      numPeople: numPeople,
+      pricePerPerson: `$${basePrice.toLocaleString()}`,
+      totalPrice: `$${totalAmount.toLocaleString()} USD`,
+      name: wizardUserInfo.name,
+      email: wizardUserInfo.email,
+      phone: wizardUserInfo.phone
+    };
+
+    try {
+      const res = await fetch('http://localhost:5000/api/send-reservation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData)
+      });
+
+      if (res.ok) {
+        setBuilderStep(4);
+
+        // Auto Reset Form & Close Modal after 3 seconds
+        setTimeout(() => {
+          setIsTripBuilderOpen(false);
+          setBuilderStep(1);
+          setSelectedCountry("");
+          setSelectedPlace("");
+          setTripDate("");
+          setTripTime("");
+          setNumPeople(1);
+          setWizardUserInfo({ name: '', email: '', phone: '' });
+        }, 3000);
+      }
+    } catch (err) {
+      console.error("Booking submission error:", err);
+    }
   };
 
-  const handleTicketCheckoutSubmit = (e) => {
+
+
+  // 3️⃣ Nova Club Ticket Booking Submit Handler
+  const handleTicketCheckoutSubmit = async (e) => {
     e.preventDefault();
+    const rawPrice = parseFloat(selectedTicketTrip?.price?.replace(/[^0-9.]/g, '') || 0);
+    const totalCalc = rawPrice * (ticketUserInfo.numPeople || 1);
+
+    const bodyData = {
+      bookingType: "Nova Club Ticket Pass",
+      title: selectedTicketTrip?.title || "N/A",
+      startDate: selectedTicketTrip?.date || "N/A",
+      menuInfo: selectedTicketTrip?.menuInfo || "N/A",
+      name: ticketUserInfo.name,
+      email: ticketUserInfo.email,
+      phone: ticketUserInfo.phone,
+      numPeople: ticketUserInfo.numPeople,
+      totalPrice: `$${totalCalc.toLocaleString()}`
+    };
+
+    await sendTripNotification(bodyData);
     setTicketSuccess(true);
+
     setTimeout(() => {
       setSelectedTicketTrip(null);
       setTicketSuccess(false);
@@ -182,83 +313,268 @@ const Home = () => {
     }, 3000);
   };
 
+  // Newsletter Form Handler
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+
+    setIsNewsletterLoading(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setNewsletterSuccess(true);
+        setNewsletterEmail('');
+        setTimeout(() => setNewsletterSuccess(false), 5000);
+      } else {
+        alert(data.message || 'Error occurred');
+      }
+    } catch (err) {
+      console.error('Newsletter Error:', err);
+      alert('Server error, please try again.');
+    } finally {
+      setIsNewsletterLoading(false);
+    }
+  };
+
+  // Contact Form Handler
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (!contactData.name || !contactData.phone) return;
+
+    setIsContactLoading(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactData),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setContactSuccess(true);
+        setContactData({ name: '', phone: '' });
+        setTimeout(() => setContactSuccess(false), 5000);
+      } else {
+        alert(data.message || 'Error occurred');
+      }
+    } catch (err) {
+      console.error('Contact Error:', err);
+      alert('Server error, please try again.');
+    } finally {
+      setIsContactLoading(false);
+    }
+  };
+
+
+  // Search Bar Submit Handler
+  const handleHeroSearch = async (e) => {
+    e.preventDefault();
+
+    // Validate user inputs before sending email
+    if (!heroUserInfo.name || !heroUserInfo.email) {
+      // Direct notification bhejne ke bajaye user ko booking modal dikhayen
+      setShowBookingModal(true);
+      return;
+    }
+
+    const bodyData = {
+      bookingType: "Hero Search Bar Inquiry",
+      title: `Search Query: ${searchDestination}`,
+      name: heroUserInfo.name,
+      email: heroUserInfo.email,
+      phone: heroUserInfo.phone || "N/A",
+      numPeople: searchGuests || 1,
+      totalPrice: "N/A"
+    };
+
+    await sendTripNotification(bodyData);
+  };
+
+
+  // Har Country aur Hub/City ka apna rate
+  const countryPricing = {
+    "Japan": {
+      "Tokyo Hub": 1800,
+      "Kyoto Trail": 1500,
+      "Osaka Central": 1300
+    },
+    "Pakistan": {
+      "Skardu Valley": 800,
+      "Hunza Trail": 750,
+      "Fairy Meadows": 900
+    },
+    "Switzerland": {
+      "Interlaken Alps": 2500,
+      "Zurich Express": 2200,
+      "Zermatt Peak": 2800
+    }
+  };
+
   return (
     <div className="home-wrapper">
-
       {/* --- HERO SECTION --- */}
-      <div className="hero-container">
-        <div className="slider-background">
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={images[index]}
-              src={images[index]}
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '-100%' }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              className="slider-image"
-              alt="hero-slide"
-            />
-          </AnimatePresence>
+      <div className="hero-container position-relative overflow-hidden">
+
+        {/* Background Video instead of Images */}
+        <div className="slider-background position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="slider-video w-100 h-100 object-fit-cover"
+          >
+            <source src="/video3.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
         </div>
 
-        <div className="image-overlay"></div>
+        <div className="image-overlay position-absolute top-0 start-0 w-100 h-100" style={{ background: 'rgba(0, 0, 0, 0.4)' }}></div>
+
+        {/* Hero Content */}
+
+
 
         {/* Navbar */}
-        <nav className="navbar navbar-expand-lg navbar-dark bg-transparent custom-navbar px-4 px-md-5 py-4">
-          <div className="container-fluid px-0">
-            <a className="navbar-brand fw-bold logo-text" href="#">NOVA TRAILS</a>
+        <nav className="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar px-3 px-md-5 py-3">
+          <div className="container-fluid px-0 d-flex justify-content-between align-items-center">
 
-            <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-              <ul className="navbar-nav gap-4">
-                <li className="nav-item"><a className="nav-link active" href="#">Home</a></li>
+            {/* 1. Brand Logo */}
+            <Link className="navbar-brand fw-bold logo-text m-0" to="/">NOVA TRAILS</Link>
+
+            {/* 2. Navigation Links Collapse Menu */}
+            <div className={`collapse navbar-collapse justify-content-center ${isMobileMenuOpen ? 'show' : ''}`} id="navbarNav">
+              <ul className="navbar-nav gap-3 gap-lg-4 text-center py-2 py-lg-0">
                 <li className="nav-item">
-                  <span className="nav-link" style={{ cursor: 'pointer' }} onClick={() => { setIsTripBuilderOpen(true); setBuilderStep(1); }}>Book with us</span>
+                  <Link className="nav-link active" to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
                 </li>
-                <li className="nav-item"><a className="nav-link" href="#">About Us</a></li>
                 <li className="nav-item">
-                  <span className="nav-link" style={{ cursor: 'pointer' }} onClick={() => setIsDashboardOpen(true)}>Nova Club</span>
+                  <span className="nav-link" style={{ cursor: 'pointer' }} onClick={() => { setIsTripBuilderOpen(true); setBuilderStep(1); setIsMobileMenuOpen(false); }}>Book with us</span>
                 </li>
-                <li className="nav-item"><a className="nav-link" href="#">Luxury Package</a></li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+                </li>
+                <li className="nav-item">
+                  <span className="nav-link" style={{ cursor: 'pointer' }} onClick={() => { setIsDashboardOpen(true); setIsMobileMenuOpen(false); }}>Nova Club</span>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/packages" onClick={() => setIsMobileMenuOpen(false)}>Luxury Package</Link>
+                </li>
+                <li className="nav-item d-lg-none">
+                  <span
+                    className="nav-link"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Contact Us
+                  </span>
+                </li>
               </ul>
             </div>
 
+            {/* 3. Right Side Group: Toggler & User Icon together */}
             <div className="d-flex align-items-center gap-3">
+              {/* Mobile Toggler Button (Sath mein rakha hai) */}
+              <button
+                className="navbar-toggler border-0 shadow-none text-white p-0 d-lg-none"
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+
+              {/* User Profile Icon */}
               <button className="btn btn-transparent text-white border-0 p-0 fs-5" onClick={() => setIsDashboardOpen(true)}>
                 <FiUser />
               </button>
-              <a href="tel:#" className="btn btn-outline-light rounded-pill px-4 call-btn text-lowercase">call us</a>
+
+              {/* Call Us Button */}
+              <a
+                href="#contact-section"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn btn-outline-light rounded-pill px-3 px-md-4 call-btn text-lowercase d-none d-sm-inline-block"
+              >
+                call us
+              </a>
             </div>
+
           </div>
         </nav>
 
+
+
+
         {/* Hero Content */}
-        <div className="container hero-content text-center text-white d-flex flex-column justify-content-center align-items-center">
+        {/* Hero Content */}
+        <div className="container hero-content text-center text-white d-flex flex-column justify-content-center align-items-center position-relative z-1">
+
           <motion.p
             initial={{ opacity: 0, letterSpacing: '2px' }}
-            animate={{ opacity: 1, letterSpacing: '4px' }}
+            whileInView={{ opacity: 1, letterSpacing: '4px' }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 1 }}
             className="hero-subtitle text-uppercase"
           >
             The World's Most
           </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="hero-title text-uppercase"
-          >
-            Escape To <br />
-            <span className="extraordinary-text">Extraordinary</span> Places
-          </motion.h1>
+          {/* 3-Line Heading with Left/Right Animations on Scroll & Refresh */}
+          <h1 className="hero-title text-uppercase fw-bold">
+
+            {/* Line 1: Escape To (from Left) */}
+            <motion.span
+              className="d-block"
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              Escape To
+            </motion.span>
+
+            {/* Line 2: Extraordinary (from Right) */}
+            <motion.span
+              className="d-block extraordinary-text"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+            >
+              Extraordinary
+            </motion.span>
+
+            {/* Line 3: Places (from Left) */}
+            <motion.span
+              className="d-block"
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+            >
+              Places
+            </motion.span>
+
+          </h1>
 
           {/* Floating Search Bar */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="search-card-container position-relative"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="search-card-container position-relative mt-4"
             onClick={() => { setIsTripBuilderOpen(true); setBuilderStep(1); }}
             style={{ cursor: 'pointer' }}
           >
@@ -293,7 +609,21 @@ const Home = () => {
                   <div className="val-text fw-semibold">2 Person</div>
                 </div>
                 <div className="col-12 col-md-auto text-center py-2">
-                  <button className="search-submit-btn">
+                  <button
+                    className="search-submit-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsTripBuilderOpen(true);
+                      setBuilderStep(1);
+                      sendTripNotification({
+                        title: 'Hero Search Bar Inquiry',
+                        travelType: 'Adventure Travel',
+                        date: '15 July 2026',
+                        travellers: '2 Person',
+                        source: 'Hero Search Bar'
+                      });
+                    }}
+                  >
                     <FiSearch size={20} />
                   </button>
                 </div>
@@ -303,13 +633,13 @@ const Home = () => {
         </div>
       </div>
 
+
       {/* --- EXPERIENCES SECTION --- */}
       <section className="experiences-section py-5">
         <div className="container pt-5">
           <h2 className="section-title text-center text-capitalize mb-4">
             Top Rated Experiences
           </h2>
-
           <div className="d-flex flex-wrap justify-content-center gap-4 md-gap-5 filter-tabs mb-5">
             {destinations.map((dest) => (
               <button
@@ -338,7 +668,15 @@ const Home = () => {
                 <motion.div
                   variants={fadeInUp}
                   whileHover={{ y: -12, transition: { duration: 0.3 } }}
-                  onClick={() => setSelectedPackage(exp)}
+                  onClick={() => {
+                    setSelectedPackage(exp);
+                    sendTripNotification({
+                      title: exp.title,
+                      country: exp.country,
+                      price: exp.price,
+                      source: 'Experience Card Clicked'
+                    });
+                  }}
                   className="experience-card position-relative shadow-sm"
                   style={{ backgroundImage: `url(${exp.img})`, cursor: 'pointer' }}
                 >
@@ -366,12 +704,27 @@ const Home = () => {
           <div className="row align-items-start">
             <div className="col-12 col-lg-3 text-start mb-5 mb-lg-0 sticky-lg-top" style={{ top: '100px', zIndex: 2 }}>
               <h2 className="luxury-title text-capitalize mb-4">Luxury <br />Packages</h2>
-              <button className="btn btn-outline-dark rounded-pill view-all-btn px-4 py-2">View all</button>
+
+              <button
+                className="btn btn-outline-dark rounded-pill view-all-btn px-4 py-2"
+                onClick={() => navigate('/packages')}
+              >
+                View all
+              </button>
             </div>
+
             <div className="col-12 col-lg-9">
               <div className="mosaic-grid-wrapper">
+
+                {/* COLUMN 1 */}
                 <div className="mosaic-column mosaic-col-first">
-                  <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="mosaic-card card-tall shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?q=80&w=600&auto=format&fit=crop')` }}>
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="mosaic-card card-tall shadow-sm"
+                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?q=80&w=600&auto=format&fit=crop')`, cursor: 'pointer' }}
+                    onClick={() => navigate('/packages', { state: { packageId: 1 } })}
+                  >
                     <div className="mosaic-overlay"></div>
                     <div className="mosaic-content">
                       <h4 className="fw-normal text-white">New Destination for 2026</h4>
@@ -379,37 +732,77 @@ const Home = () => {
                     </div>
                   </motion.div>
                 </div>
+
+                {/* COLUMN 2 */}
                 <div className="mosaic-column">
-                  <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="mosaic-card card-tall shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=600&auto=format&fit=crop')` }}>
+                  {/* Best Winter Destination */}
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="mosaic-card card-tall shadow-sm"
+                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=600&auto=format&fit=crop')`, cursor: 'pointer' }}
+                    onClick={() => navigate('/packages', { state: { packageId: 2 } })}
+                  >
                     <div className="mosaic-overlay"></div>
                     <div className="mosaic-content">
                       <h4 className="fw-normal text-white">Best Winter Destination</h4>
                       <div className="diamond-badge-wrapper"><div className="diamond-badge"><span>36 Places</span></div></div>
                     </div>
                   </motion.div>
-                  <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="mosaic-card card-short shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop')` }}>
+
+                  {/* Experiences Away from Crowd */}
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="mosaic-card card-short shadow-sm"
+                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop')`, cursor: 'pointer' }}
+                    onClick={() => navigate('/packages', { state: { packageId: 3 } })}
+                  >
                     <div className="mosaic-overlay"></div>
-                    <div className="mosaic-content"><h4 className="fw-normal fs-5 m-0 px-2 text-white">Experiences Away from Crowd</h4></div>
+                    <div className="mosaic-content">
+                      <h4 className="fw-normal fs-5 m-0 px-2 text-white">Experiences Away from Crowd</h4>
+                    </div>
                   </motion.div>
                 </div>
+
+                {/* COLUMN 3 */}
                 <div className="mosaic-column">
-                  <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="mosaic-card card-tall shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600&auto=format&fit=crop')` }}>
+                  {/* World Most Extraordinary places */}
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="mosaic-card card-tall shadow-sm"
+                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600&auto=format&fit=crop')`, cursor: 'pointer' }}
+                    onClick={() => navigate('/packages', { state: { packageId: 4 } })}
+                  >
                     <div className="mosaic-overlay"></div>
                     <div className="mosaic-content">
                       <h4 className="fw-normal text-white">World Most Extraordinary places</h4>
                       <div className="diamond-badge-wrapper"><div className="diamond-badge"><span>29 Places</span></div></div>
                     </div>
                   </motion.div>
-                  <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="mosaic-card card-short shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=600&auto=format&fit=crop')` }}>
+
+                  {/* Your Health is matter */}
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="mosaic-card card-short shadow-sm"
+                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=600&auto=format&fit=crop')`, cursor: 'pointer' }}
+                    onClick={() => navigate('/packages', { state: { packageId: 5 } })}
+                  >
                     <div className="mosaic-overlay"></div>
-                    <div className="mosaic-content"><h4 className="fw-normal fs-5 m-0 px-2 text-white">Your Health is matter</h4></div>
+                    <div className="mosaic-content">
+                      <h4 className="fw-normal fs-5 m-0 px-2 text-white">Your Health is matter</h4>
+                    </div>
                   </motion.div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* --- SERVICES/EXCLUSIVE OFFERS --- */}
       <section className="services-fleet-section py-5">
@@ -424,9 +817,25 @@ const Home = () => {
               { title: 'PRIVATE HELICOPTER', img: 'https://images.unsplash.com/photo-1508873699372-7aeab60b44ab?q=80&w=600&auto=format&fit=crop' },
               { title: 'PRIVATE JET', img: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=600&auto=format&fit=crop' }
             ].map((service, idx) => (
-              <div key={idx} className="col-12 col-md-6">
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: idx * 0.1 }} className="service-card position-relative overflow-hidden rounded-0 shadow-sm">
-                  <motion.div className="service-bg" style={{ backgroundImage: `url(${service.img})` }} whileHover={{ scale: 1.08 }} transition={{ duration: 0.6, ease: 'easeOut' }} />
+              <div
+                key={idx}
+                className="col-12 col-md-6"
+                onClick={() => navigate(`/service/${service.title.toLowerCase().replace(/\s+/g, '-')}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="service-card position-relative overflow-hidden rounded-0 shadow-sm"
+                >
+                  <motion.div
+                    className="service-bg"
+                    style={{ backgroundImage: `url(${service.img})` }}
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                  />
                   <div className="service-overlay"></div>
                   <div className="service-text-container position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center z-3">
                     <h3 className="service-title text-white m-0 text-uppercase text-center">{service.title}</h3>
@@ -435,6 +844,7 @@ const Home = () => {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -452,6 +862,13 @@ const Home = () => {
         </div>
       </section>
 
+
+
+
+
+
+
+
       {/* --- NEWSLETTER BAR --- */}
       <section className="newsletter-section position-relative overflow-hidden">
         <div className="newsletter-bg-layer" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1400&auto=format&fit=crop')` }}></div>
@@ -459,10 +876,30 @@ const Home = () => {
         <div className="container position-relative z-3 text-white py-5 d-flex flex-column align-items-start justify-content-center text-start min-vh-50 px-4 px-md-5">
           <motion.h2 initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="newsletter-title mb-3 display-5 fw-normal text-white">Get Weekly <br />Inspiration And <br />Expert Advice</motion.h2>
           <p className="newsletter-subtitle mb-4 text-white opacity-90">Sign up for our weekly newsletter</p>
-          <div className="newsletter-input-pill d-flex align-items-center w-100 max-w-600 p-1">
-            <input type="email" placeholder="Enter your email address" className="form-control bg-transparent text-white border-0 px-4 shadow-none newsletter-field" />
-            <button className="btn btn-light newsletter-subscribe-btn text-uppercase fw-medium px-4 py-2 rounded-pill">Subscribe</button>
-          </div>
+
+          {newsletterSuccess ? (
+            <div className="alert alert-success rounded-pill px-4 py-2 bg-success text-white border-0 shadow">
+              ✓ Thank you for subscribing! Check your inbox soon.
+            </div>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} className="newsletter-input-pill d-flex align-items-center w-100 max-w-600 p-1">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                required
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="form-control bg-transparent text-white border-0 px-4 shadow-none newsletter-field"
+              />
+              <button
+                type="submit"
+                disabled={isNewsletterLoading}
+                className="btn btn-light newsletter-subscribe-btn text-uppercase fw-medium px-4 py-2 rounded-pill"
+              >
+                {isNewsletterLoading ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 
@@ -495,25 +932,63 @@ const Home = () => {
       </section>
 
       {/* --- CONTACT OVERLAY FORM --- */}
-      <section className="contact-section position-relative d-flex align-items-center justify-content-center py-5">
+      {/* --- CONTACT OVERLAY FORM --- */}
+      <section id="contact-section" className="contact-section position-relative d-flex align-items-center justify-content-center py-5">
         <div className="contact-bg-layer" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop')` }}></div>
         <div className="container position-relative z-3 d-flex justify-content-center py-5">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="contact-glass-card p-4 p-md-5 text-center shadow">
             <h3 className="contact-card-title mb-4">Contact</h3>
-            <form onSubmit={(e) => e.preventDefault()} className="d-flex flex-column gap-3 align-items-center w-100">
-              <div className="w-100 max-w-400"><input type="text" placeholder="Name" className="form-control contact-input text-center rounded-pill px-4 py-2" /></div>
-              <div className="w-100 max-w-400 mb-2"><input type="tel" placeholder="Phone" className="form-control contact-input text-center rounded-pill px-4 py-2" /></div>
-              <button className="btn btn-dark w-100 max-w-400 rounded-pill call-back-btn text-uppercase fw-medium py-2 mt-2">Call Me Back</button>
-            </form>
+
+            {contactSuccess ? (
+              <div className="alert alert-success rounded-pill px-4 py-3 bg-success text-white border-0 shadow">
+                ✓ Request received! We will call you back shortly.
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className="d-flex flex-column gap-3 align-items-center w-100">
+                <div className="w-100 max-w-400">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    required
+                    value={contactData.name}
+                    onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
+                    className="form-control contact-input text-center rounded-pill px-4 py-2"
+                  />
+                </div>
+                <div className="w-100 max-w-400 mb-2">
+                  <input
+                    type="tel"
+                    placeholder="Phone"
+                    required
+                    value={contactData.phone}
+                    onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                    className="form-control contact-input text-center rounded-pill px-4 py-2"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isContactLoading}
+                  className="btn btn-dark w-100 max-w-400 rounded-pill call-back-btn text-uppercase fw-medium py-2 mt-2"
+                >
+                  {isContactLoading ? 'Sending...' : 'Call Me Back'}
+                </button>
+              </form>
+            )}
           </motion.div>
         </div>
       </section>
+
+
+
+
+
+
 
       {/* ==========================================================================
           --- INTERACTIVE OVERLAYS / DRAWERS ---
           ========================================================================== */}
 
-      {/* 1. INTERACTIVE PACKAGES DEEP DIVE MODAL / DRAWER (UPDATED WITH RESPONSIVE IMAGE CARD) */}
+      {/* 1. INTERACTIVE PACKAGES DEEP DIVE MODAL */}
       <AnimatePresence>
         {selectedPackage && (
           <motion.div
@@ -539,12 +1014,9 @@ const Home = () => {
                     <button className="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center" onClick={() => setSelectedPackage(null)}><FiX size={20} /></button>
                   </div>
                 </div>
-
-                {/* Newly Added Rich Destination Preview Image Container */}
                 <div className="rounded-3 overflow-hidden mb-4 shadow-sm" style={{ height: '220px' }}>
                   <img src={selectedPackage.img} className="w-100 h-100 object-fit-cover" alt={selectedPackage.title} />
                 </div>
-
                 <h2 className="fw-bold text-uppercase mb-3">{selectedPackage.title}</h2>
                 <h4 className="text-primary fw-semibold mb-4">{selectedPackage.price} <span className="fs-6 text-muted fw-normal">/ person</span></h4>
                 <p className="text-muted mb-4">{selectedPackage.desc}</p>
@@ -585,77 +1057,131 @@ const Home = () => {
         )}
       </AnimatePresence>
 
+
+
       {/* 2. CUSTOM TRIP BUILDER WIZARD OVERLAY */}
       <AnimatePresence>
-        {isTripBuilderOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(10, 12, 15, 0.85)', backdropFilter: 'blur(16px)', zIndex: 10000 }}>
-            <motion.div initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 30 }} className="bg-white rounded-4 p-4 p-md-5 text-dark position-relative shadow-2xl w-100 mx-3" style={{ maxWidth: '640px' }}>
-              <button className="position-absolute top-0 end-0 m-4 btn btn-light rounded-circle p-2" onClick={() => setIsTripBuilderOpen(false)}><FiX size={20} /></button>
-              <div className="mb-4 d-flex align-items-center gap-2 text-muted uppercase tracking-widest fs-7">
-                <span>Step {builderStep} of 3</span>
-                {builderStep < 4 && <div className="progress flex-grow-1 ms-2" style={{ height: '4px' }}><div className="progress-bar bg-dark" style={{ width: `${(builderStep / 3) * 100}%` }}></div></div>}
-              </div>
-              {builderStep === 1 && (
-                <div>
-                  <h3 className="fw-bold mb-3">Where should we craft your trail?</h3>
-                  <div className="mb-3">
-                    <label className="form-label text-muted fs-7 fw-medium text-uppercase">Select Target Country</label>
-                    <select className="form-select py-2" value={selectedCountry} onChange={(e) => { setSelectedCountry(e.target.value); setSelectedPlace(""); }}>
-                      <option value="">-- Choose Country --</option>
-                      {Object.keys(countryData).map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  {selectedCountry && (
-                    <div className="mb-4">
-                      <label className="form-label text-muted fs-7 fw-medium text-uppercase">Select Curated Hub</label>
-                      <select className="form-select py-2" value={selectedPlace} onChange={(e) => setSelectedPlace(e.target.value)}>
-                        <option value="">-- Choose Region --</option>
-                        {countryData[selectedCountry]?.map(p => <option key={p} value={p}>{p}</option>)}
+        {isTripBuilderOpen && (() => {
+          // 💡 Dynamic Price Lookup based on Country & Selected Place
+          const currentCountryPlaces = countryPricing[selectedCountry] || {};
+          const basePricePerPerson = currentCountryPlaces[selectedPlace] || 1000; // Fallback price agar select na ho
+          const calculatedTotal = numPeople * basePricePerPerson;
+
+          return (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(10, 12, 15, 0.85)', backdropFilter: 'blur(16px)', zIndex: 10000 }}>
+              <motion.div initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 30 }} className="bg-white rounded-4 p-4 p-md-5 text-dark position-relative shadow-2xl w-100 mx-3" style={{ maxWidth: '640px' }}>
+                <button className="position-absolute top-0 end-0 m-4 btn btn-light rounded-circle p-2" onClick={() => setIsTripBuilderOpen(false)}><FiX size={20} /></button>
+
+                <div className="mb-4 d-flex align-items-center gap-2 text-muted uppercase tracking-widest fs-7">
+                  <span>Step {builderStep} of 3</span>
+                  {builderStep < 4 && <div className="progress flex-grow-1 ms-2" style={{ height: '4px' }}><div className="progress-bar bg-dark" style={{ width: `${(builderStep / 3) * 100}%` }}></div></div>}
+                </div>
+
+                {/* STEP 1: Country & Region Selection */}
+                {builderStep === 1 && (
+                  <div>
+                    <h3 className="fw-bold mb-3">Where should we craft your trail?</h3>
+                    <div className="mb-3">
+                      <label className="form-label text-muted fs-7 fw-medium text-uppercase">Select Target Country</label>
+                      <select className="form-select py-2" value={selectedCountry} onChange={(e) => { setSelectedCountry(e.target.value); setSelectedPlace(""); }}>
+                        <option value="">-- Choose Country --</option>
+                        {Object.keys(countryPricing).map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
-                  )}
-                  <button className="btn btn-dark w-100 py-2 rounded-pill mt-3" disabled={!selectedPlace} onClick={() => setBuilderStep(2)}>Continue <FiChevronRight /></button>
-                </div>
-              )}
-              {builderStep === 2 && (
-                <div>
-                  <h3 className="fw-bold mb-3">Temporal Logistics</h3>
-                  <div className="row g-3 mb-4">
-                    <div className="col-12"><label className="form-label text-muted fs-7">Departure Target Date</label><input type="date" min={todayDateStr} className="form-control" value={tripDate} onChange={e => setTripDate(e.target.value)} /></div>
-                    <div className="col-6"><label className="form-label text-muted fs-7">Preferred Slot</label><input type="time" className="form-control" value={tripTime} onChange={e => setTripTime(e.target.value)} /></div>
-                    <div className="col-6"><label className="form-label text-muted fs-7">Total Enlisted Guests</label><input type="number" min="1" max="50" className="form-control" value={numPeople} onChange={e => setNumPeople(parseInt(e.target.value) || 1)} /></div>
+
+                    {selectedCountry && (
+                      <div className="mb-4">
+                        <label className="form-label text-muted fs-7 fw-medium text-uppercase">Select Curated Hub</label>
+                        <select className="form-select py-2" value={selectedPlace} onChange={(e) => setSelectedPlace(e.target.value)}>
+                          <option value="">-- Choose Region --</option>
+                          {Object.keys(currentCountryPlaces).map(place => (
+                            <option key={place} value={place}>
+                              {place} (${currentCountryPlaces[place]} / person)
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    <button className="btn btn-dark w-100 py-2 rounded-pill mt-3" disabled={!selectedPlace} onClick={() => setBuilderStep(2)}>
+                      Continue <FiChevronRight />
+                    </button>
                   </div>
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-light flex-grow-1 rounded-pill" onClick={() => setBuilderStep(1)}>Back</button>
-                    <button className="btn btn-dark flex-grow-1 rounded-pill" disabled={!tripDate} onClick={() => setBuilderStep(3)}>Next Sequence</button>
+                )}
+
+                {/* STEP 2: Temporal Logistics & Dynamic Persons Calculation */}
+                {builderStep === 2 && (
+                  <div>
+                    <h3 className="fw-bold mb-3">Temporal Logistics</h3>
+                    <div className="row g-3 mb-3">
+                      <div className="col-12"><label className="form-label text-muted fs-7">Departure Target Date</label><input type="date" min={todayDateStr} className="form-control" value={tripDate} onChange={e => setTripDate(e.target.value)} /></div>
+                      <div className="col-6"><label className="form-label text-muted fs-7">Preferred Slot</label><input type="time" className="form-control" value={tripTime} onChange={e => setTripTime(e.target.value)} /></div>
+                      <div className="col-6"><label className="form-label text-muted fs-7">Total Enlisted Guests</label><input type="number" min="1" max="50" className="form-control" value={numPeople} onChange={e => setNumPeople(parseInt(e.target.value) || 1)} /></div>
+                    </div>
+
+                    {/* 💰 DYNAMIC PRICE BREAKDOWN */}
+                    <div className="bg-light rounded-3 p-3 mb-4 d-flex justify-content-between align-items-center border">
+                      <div>
+                        <span className="fw-bold text-dark d-block">{selectedPlace}, {selectedCountry}</span>
+                        <small className="text-muted fs-8">${basePricePerPerson.toLocaleString()} x {numPeople} guest(s)</small>
+                      </div>
+                      <div className="fw-bold fs-4 text-success">
+                        ${calculatedTotal.toLocaleString()} USD
+                      </div>
+                    </div>
+
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-light flex-grow-1 rounded-pill" onClick={() => setBuilderStep(1)}>Back</button>
+                      <button className="btn btn-dark flex-grow-1 rounded-pill" disabled={!tripDate} onClick={() => setBuilderStep(3)}>Next Sequence</button>
+                    </div>
                   </div>
-                </div>
-              )}
-              {builderStep === 3 && (
-                <form onSubmit={handleWizardSubmit}>
-                  <h3 className="fw-bold mb-3">Confirm Booking</h3>
-                  <div className="d-flex flex-column gap-3 mb-4">
-                    <input type="text" placeholder="Full Legal Name" required className="form-control" value={wizardUserInfo.name} onChange={e => setWizardUserInfo({ ...wizardUserInfo, name: e.target.value })} />
-                    <input type="email" placeholder="Digital Mailing Address" required className="form-control" value={wizardUserInfo.email} onChange={e => setWizardUserInfo({ ...wizardUserInfo, email: e.target.value })} />
-                    <input type="tel" placeholder="Mobile Loop" required className="form-control" value={wizardUserInfo.phone} onChange={e => setWizardUserInfo({ ...wizardUserInfo, phone: e.target.value })} />
+                )}
+
+                {/* STEP 3: Confirm Booking */}
+                {builderStep === 3 && (
+                  <form onSubmit={(e) => handleWizardSubmit(e, calculatedTotal, basePricePerPerson)}>
+                    {/* Form fields */}
+                    <button type="submit" className="btn btn-dark w-100">Confirm Booking</button>
+
+
+                    {/* 📋 FINAL SUMMARY BOX */}
+                    <div className="bg-light rounded-3 p-3 mb-4 border">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <span className="fw-bold text-dark">{selectedCountry} &bull; {selectedPlace}</span>
+                        <span className="fw-bold text-success fs-5">${calculatedTotal.toLocaleString()} USD</span>
+                      </div>
+                      <div className="text-muted fs-7">
+                        📅 {tripDate} {tripTime && `| ⏰ ${tripTime}`} | 👥 {numPeople} Person(s) (${basePricePerPerson}/person)
+                      </div>
+                    </div>
+
+                    <div className="d-flex flex-column gap-3 mb-4">
+                      <input type="text" placeholder="Full Legal Name" required className="form-control" value={wizardUserInfo.name} onChange={e => setWizardUserInfo({ ...wizardUserInfo, name: e.target.value })} />
+                      <input type="email" placeholder="Digital Mailing Address" required className="form-control" value={wizardUserInfo.email} onChange={e => setWizardUserInfo({ ...wizardUserInfo, email: e.target.value })} />
+                      <input type="tel" placeholder="Mobile Loop" required className="form-control" value={wizardUserInfo.phone} onChange={e => setWizardUserInfo({ ...wizardUserInfo, phone: e.target.value })} />
+                    </div>
+                    <div className="d-flex gap-2">
+                      <button type="button" className="btn btn-light flex-grow-1 rounded-pill" onClick={() => setBuilderStep(2)}>Back</button>
+                      <button type="submit" className="btn btn-dark flex-grow-1 rounded-pill">Confirm Booking</button>
+                    </div>
+                  </form>
+                )}
+
+                {/* STEP 4: Success Message */}
+                {builderStep === 4 && (
+                  <div className="text-center py-4">
+                    <div className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: '60px', height: '60px' }}><FiCheck size={32} /></div>
+                    <h3 className="fw-bold text-uppercase">We will contact you soon</h3>
+                    <p className="text-muted">Our travel curation executives are verifying your details.</p>
                   </div>
-                  <div className="d-flex gap-2">
-                    <button type="button" className="btn btn-light flex-grow-1 rounded-pill" onClick={() => setBuilderStep(2)}>Back</button>
-                    <button type="submit" className="btn btn-dark flex-grow-1 rounded-pill">Confirm Booking</button>
-                  </div>
-                </form>
-              )}
-              {builderStep === 4 && (
-                <div className="text-center py-4">
-                  <div className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: '60px', height: '60px' }}><FiCheck size={32} /></div>
-                  <h3 className="fw-bold text-uppercase">We will contact you soon</h3>
-                  <p className="text-muted">Our travel curation executives are verifying your details.</p>
-                </div>
-              )}
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
+
+
 
       {/* 3. NOVA CLUB PERSONAL PROFILE & DATA DASHBOARD DRAWER */}
       <AnimatePresence>
@@ -672,7 +1198,19 @@ const Home = () => {
                 <div className="d-flex justify-content-between align-items-center mb-5">
                   <div className="d-flex align-items-center gap-2">
                     <div className="bg-white text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '40px', height: '40px' }}>N</div>
-                    <span className="fw-bold tracking-wider fs-5">NOVA CLUB</span>
+                    <span
+                      className="nav-link"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        setIsDashboardOpen(true);
+                        sendTripNotification({
+                          title: 'Nova Club Member Interest',
+                          source: 'Nova Club Navbar Link'
+                        });
+                      }}
+                    >
+                      Nova Club
+                    </span>
                   </div>
                   <button className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" onClick={() => setIsDashboardOpen(false)}><FiX size={18} /></button>
                 </div>
@@ -747,13 +1285,11 @@ const Home = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <button className="position-absolute top-0 end-0 m-4 btn btn-light rounded-circle p-2" onClick={() => setSelectedTicketTrip(null)}><FiX size={18} /></button>
-
               {!ticketSuccess ? (
                 <div>
                   <span className="text-muted text-uppercase tracking-widest fs-8 fw-semibold d-block mb-1">Company Pass Checkout</span>
                   <h3 className="fw-bold text-dark mb-2">{selectedTicketTrip.title}</h3>
                   <span className="badge bg-dark text-white rounded px-3 py-1.5 fs-7 mb-4">{selectedTicketTrip.date}</span>
-
                   <div className="row g-3 mb-4">
                     <div className="col-12">
                       <div className="rounded-3 overflow-hidden position-relative mb-2" style={{ height: '160px' }}>
@@ -761,28 +1297,24 @@ const Home = () => {
                         <span className="position-absolute bottom-0 start-0 m-2 bg-white text-dark px-2 py-1 rounded fs-8 fw-bold shadow-sm">Premium 5-Star Stay Included</span>
                       </div>
                     </div>
-
                     <div className="col-6">
                       <div className="p-2.5 bg-light rounded text-start h-100">
                         <div className="text-muted fs-8 text-uppercase tracking-wider fw-semibold mb-1"><FiClock className="me-1" /> Duration</div>
                         <div className="fw-bold text-dark fs-6">{selectedTicketTrip.duration}</div>
                       </div>
                     </div>
-
                     <div className="col-6">
                       <div className="p-2.5 bg-light rounded text-start h-100">
                         <div className="text-muted fs-8 text-uppercase tracking-wider fw-semibold mb-1"><FiDollarSign className="me-1" /> Fare Base</div>
                         <div className="fw-bold text-primary fs-6">{selectedTicketTrip.price} <span className="fs-8 text-muted fw-normal">/ person</span></div>
                       </div>
                     </div>
-
                     <div className="col-12">
                       <div className="p-3 bg-light rounded border-start border-3 border-dark text-start">
                         <div className="fw-bold text-dark fs-7 text-uppercase mb-1">Gourmet Menu Blueprint</div>
                         <p className="text-muted fs-7 m-0">{selectedTicketTrip.menuInfo}</p>
                       </div>
                     </div>
-
                     <div className="col-12">
                       <div className="p-3 bg-light rounded border-start border-3 border-secondary text-start">
                         <div className="fw-bold text-dark fs-7 text-uppercase mb-1">Enlisted Itinerary Activities</div>
@@ -790,17 +1322,15 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-
                   <hr className="my-4 text-muted opacity-20" />
 
-                  {/* --- FORM WITH GAPS ADDED --- */}
+                  {/* --- FORM SECTION --- */}
                   <form onSubmit={handleTicketCheckoutSubmit}>
                     <label className="form-label text-muted fs-8 tracking-wider text-uppercase fw-bold mb-2.5">
                       Enter Your Info To Book Ticket
                     </label>
 
-                    {/* Changed gap-2 to gap-3 for proper vertical spacing */}
-                    <div className="d-flex flex-column gap-3 mb-2">
+                    <div className="d-flex flex-column gap-3 mb-3">
                       <input
                         type="text"
                         placeholder="Full Name"
@@ -834,33 +1364,36 @@ const Home = () => {
                           <input
                             type="number"
                             min="1"
-                            max="30"
+                            max="20"
+                            placeholder="Guests"
                             required
                             className="form-control py-2 px-3 border border-light-subtle rounded"
-                            value={ticketUserInfo.numPeople}
+                            value={ticketUserInfo.numPeople || 1}
                             onChange={e => setTicketUserInfo({ ...ticketUserInfo, numPeople: parseInt(e.target.value) || 1 })}
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="p-3 bg-light rounded d-flex justify-content-between align-items-center my-3 border border-light-subtle">
+                    <div className="p-3 bg-light rounded d-flex justify-content-between align-items-center my-3 border border-light">
                       <span className="text-muted fs-7 text-uppercase tracking-wider fw-medium">Total Amount:</span>
                       <span className="fw-bold text-dark fs-5">
                         ${(parseFloat(selectedTicketTrip.price.replace(/[^0-9.]/g, '')) * (ticketUserInfo.numPeople || 1)).toLocaleString()}
                       </span>
                     </div>
 
-                    <button type="submit" className="btn btn-secondary w-100 py-2.5 rounded text-uppercase fw-bold tracking-wide shadow-sm" style={{ backgroundColor: '#6c757d', border: 'none' }}>
-                      Confirm & Book Ticket
+                    <button type="submit" className="btn btn-dark w-100 rounded-pill py-2.5 text-uppercase fw-medium tracking-wider">
+                      Confirm Ticket Booking
                     </button>
                   </form>
                 </div>
               ) : (
-                <div className="text-center py-5">
-                  <div className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style={{ width: '56px', height: '56px' }}><FiCheck size={28} /></div>
-                  <h3 className="fw-bold text-uppercase m-0 mb-1">We will contact you soon</h3>
-                  <p className="text-muted fs-6 mb-0">Your corporate luxury ticket request has been logged successfully.</p>
+                <div className="text-center py-4">
+                  <div className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: '60px', height: '60px' }}>
+                    <FiCheck size={32} />
+                  </div>
+                  <h4 className="fw-bold text-uppercase">Ticket Confirmed!</h4>
+                  <p className="text-muted">We will contact you soon with your booking confirmation.</p>
                 </div>
               )}
             </motion.div>

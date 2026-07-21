@@ -1,0 +1,354 @@
+/* --- LUXURY MASTER MASTER LOOK & FEEL --- */
+.luxury-master-wrapper {
+  background-color: #fcfcfc;
+  min-height: 100vh;
+  color: #1c1f22;
+}
+
+.main-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #111;
+}
+
+/* --- GRID MAIN CARDS --- */
+.luxury-pkg-card {
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-luxury-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
+  z-index: 1;
+}
+
+.luxury-pkg-card:hover .card-luxury-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.95) 100%);
+}
+
+.card-luxury-content {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+}
+
+.badge-luxury-places {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.luxury-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.luxury-starting-price {
+  color: #dfb76c;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.luxury-explore-btn-wrap {
+  margin-top: 1.5rem;
+  opacity: 0.7;
+  transform: translateY(3px);
+  transition: all 0.3s ease;
+}
+
+.luxury-pkg-card:hover .luxury-explore-btn-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.luxury-explore-txt {
+  color: #fff;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* --- INTERACTIVE ROUTING PLACES --- */
+.selectable-place-card {
+  height: 190px;
+  cursor: pointer;
+  position: relative;
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.place-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(360deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 100%);
+  z-index: 1;
+}
+
+.place-card-details {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  z-index: 2;
+  text-align: left;
+}
+
+.place-premium-tag {
+  font-size: 0.75rem;
+  color: #dfb76c;
+  font-weight: 600;
+  display: block;
+}
+
+.place-select-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 26px;
+  height: 26px;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.place-card-active {
+  border-color: #c5a86a !important;
+  transform: scale(0.98);
+}
+
+.place-select-indicator.selected {
+  background-color: #c5a86a !important;
+  border-color: #c5a86a !important;
+}
+
+/* --- STEP SYSTEM TITLES --- */
+.customizer-container .section-step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.customizer-container .section-step-title span {
+  font-size: 0.9rem;
+  background-color: #111;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+
+/* --- HOTELS IMAGES INTEGRATION --- */
+.hotel-img-container {
+  width: 110px;
+  height: 80px;
+  flex-shrink: 0;
+  background-color: #eaeaea;
+}
+
+/* --- MENUS IMAGES INTEGRATION --- */
+.menu-img-header-wrap {
+  width: 100%;
+  height: 140px;
+  background-color: #f0f0f0;
+}
+
+/* --- CUSTOM INPUT FIELDS --- */
+.luxury-input-field {
+  border: 1px solid #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background-color: #fdfdfd;
+  transition: all 0.2s ease;
+}
+
+.luxury-input-field:focus {
+  border-color: #c5a86a;
+  box-shadow: 0 0 0 3px rgba(197, 168, 106, 0.15);
+  background-color: #fff;
+  outline: none;
+}
+
+/* --- SELECTION ROWS --- */
+.custom-select-row {
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.25s ease;
+}
+
+.custom-select-row:hover {
+  background-color: #fafafa;
+  border-color: #bbb !important;
+}
+
+.active-luxury {
+  background-color: #fbf9f4 !important;
+  border-color: #c5a86a !important;
+  box-shadow: 0 4px 20px rgba(197, 168, 106, 0.1) !important;
+}
+
+.custom-menu-card {
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.25s ease;
+}
+
+.custom-menu-card:hover {
+  border-color: #bbb !important;
+  transform: translateY(-2px);
+}
+
+.custom-checkbox-circle {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ccc;
+  border-radius: 50px;
+  position: relative;
+}
+
+.custom-checkbox-circle.checked {
+  border-color: #c5a86a;
+  background-color: #c5a86a;
+}
+
+.custom-checkbox-circle.checked::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg);
+}
+
+/* --- STICKY SUMMARY CARD --- */
+.sticky-summary-card {
+  position: sticky;
+  top: 40px;
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+}
+
+.style-max-w {
+  max-width: 150px;
+}
+
+.total-highlight-banner {
+  background-color: #f8f6f0;
+  border-left: 4px solid #c5a86a;
+}
+
+/* --- MODAL POPUP --- */
+.popup-overlay-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 18, 22, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+}
+
+.popup-content-box {
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #777;
+  cursor: pointer;
+}
+
+.success-icon-wrap {
+  width: 60px;
+  height: 60px;
+  background-color: #f4efe3;
+  color: #c5a86a;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.receipt-breakdown-box {
+  border: 1px dashed #ddd;
+}
+
+.label-gold-receipt {
+  color: #bfa15f;
+}
+
+.fs-8 { font-size: 0.78rem; }
+.fs-9 { font-size: 0.70rem; }
+.customizer-main-title { font-family: 'Playfair Display', serif; }
+.text-gradient-gold { color: #c5a86a; }
