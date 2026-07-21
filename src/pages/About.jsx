@@ -43,7 +43,7 @@ export default function About() {
           <Link to="/" className="btn btn-outline-dark rounded-pill px-3 py-2 d-flex align-items-center gap-2 back-btn">
             <FiArrowLeft /> Back to Home
           </Link>
-          <span className="fw-bold logo-text fs-4 text-dark">NOVA TRAILS</span>
+          <span className="fw-bold logo-text fs-4 text-dark">Meridian Luxe</span>
         </div>
       </header>
 
@@ -57,7 +57,7 @@ export default function About() {
           <span className="text-uppercase tracking-widest sub-title mb-2 d-block">Crafting Extraordinary Escapes</span>
           <h1 className="display-3 fw-bold mb-4 text-dark">Redefining Luxury Travel</h1>
           <p className="lead text-muted max-w-700 mx-auto">
-            At Nova Trails, we don't just organize trips—we engineer timeless experiences. Built for discerning travelers who seek uncompromised luxury, absolute privacy, and seamless exploration.
+            At Meridian Luxe, we don't just organize trips—we engineer timeless experiences. Built for discerning travelers who seek uncompromised luxury, absolute privacy, and seamless exploration.
           </p>
         </motion.div>
       </section>
@@ -114,7 +114,7 @@ export default function About() {
             >
               <h2 className="h1 fw-bold mb-3 text-dark">Our Legacy & Ethos</h2>
               <p className="text-muted mb-4">
-                Founded with a vision to connect high-profile adventurers to the world's most remote and enchanting destinations, Nova Trails bridges ultra-luxury hospitality with raw, untamed exploration.
+                Founded with a vision to connect high-profile adventurers to the world's most remote and enchanting destinations, Meridian Luxe bridges ultra-luxury hospitality with raw, untamed exploration.
               </p>
               <p className="text-muted mb-4">
                 Whether chartering a private jet through Alpine corridors or booking exclusive island sanctuaries, our relentless attention to detail ensures your comfort is never compromised.

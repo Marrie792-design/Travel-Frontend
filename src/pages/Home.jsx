@@ -445,7 +445,7 @@ const Home = () => {
           <div className="container-fluid px-0 d-flex justify-content-between align-items-center">
 
             {/* 1. Brand Logo */}
-            <Link className="navbar-brand fw-bold logo-text m-0" to="/">NOVA TRAILS</Link>
+            <Link className="navbar-brand fw-bold logo-text m-0" to="/">Meridian Luxe</Link>
 
             {/* 2. Navigation Links Collapse Menu */}
             <div className={`collapse navbar-collapse justify-content-center ${isMobileMenuOpen ? 'show' : ''}`} id="navbarNav">
@@ -848,11 +848,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* --- WHY NOVA TRAILS --- */}
+      {/* --- WHY Meridian Luxe --- */}
       <section className="why-nova-section py-5">
         <div className="container py-4">
           <div className="row align-items-start mb-5">
-            <div className="col-12 col-md-6 text-start"><h2 className="why-main-title text-uppercase m-0">Why <br />Nova Trails</h2></div>
+            <div className="col-12 col-md-6 text-start"><h2 className="why-main-title text-uppercase m-0">Why <br />Meridian Luxe</h2></div>
             <div className="col-12 col-md-6 text-start mt-3 mt-md-0"><p className="why-top-desc text-muted lh-base">We create unforgettable journeys with handpicked destinations, luxurious stays, and personalized experiences, ensuring every trip is seamless, memorable, and truly extraordinary.</p></div>
           </div>
           <motion.div initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="why-banner position-relative overflow-hidden shadow-sm" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop')` }}>
@@ -910,8 +910,8 @@ const Home = () => {
           <h2 className="testimonials-main-heading mb-5">What Our Customers Say</h2>
           <div className="row g-4 justify-content-center">
             {[
-              { name: 'Sophia L.', text: 'Every detail of our Switzerland trip was flawlessly planned. From luxury hotels to breathtaking views, Nova Trails exceeded every expectation.' },
-              { name: 'Michel A.', text: 'Professional service, hidden gems, and exceptional hospitality. I can\'t wait to book my next adventure with Nova Trails.' },
+              { name: 'Sophia L.', text: 'Every detail of our Switzerland trip was flawlessly planned. From luxury hotels to breathtaking views, Meridian Luxe exceeded every expectation.' },
+              { name: 'Michel A.', text: 'Professional service, hidden gems, and exceptional hospitality. I can\'t wait to book my next adventure with Meridian Luxe.' },
               { name: 'Emily R.', text: 'From start to finish, everything was seamless. The recommendations were outstanding, and every destination felt magical.' }
             ].map((item, idx) => (
               <div key={idx} className="col-12 col-md-4">
