@@ -7,9 +7,9 @@ import './About.css';
 export default function About() {
   const stats = [
     { label: "Curated Trails", value: "120+" },
+    { label: "Satisfaction Rate", value: "99.8%" },
     { label: "VIP Travelers", value: "15,000+" },
     { label: "Global Hubs", value: "35" },
-    { label: "Satisfaction Rate", value: "99.8%" }
   ];
 
   const features = [

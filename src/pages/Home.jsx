@@ -1116,7 +1116,7 @@ const Home = () => {
                     <div className="row g-3 mb-3">
                       <div className="col-12"><label className="form-label text-muted fs-7">Departure Target Date</label><input type="date" min={todayDateStr} className="form-control" value={tripDate} onChange={e => setTripDate(e.target.value)} /></div>
                       <div className="col-6"><label className="form-label text-muted fs-7">Preferred Slot</label><input type="time" className="form-control" value={tripTime} onChange={e => setTripTime(e.target.value)} /></div>
-                      <div className="col-6"><label className="form-label text-muted fs-7">Total Enlisted Guests</label><input type="number" min="1" max="50" className="form-control" value={numPeople} onChange={e => setNumPeople(parseInt(e.target.value) || 1)} /></div>
+                      <div className="col-6"><label className="form-label text-muted fs-7">Total Guests</label><input type="number" min="1" max="50" className="form-control" value={numPeople} onChange={e => setNumPeople(parseInt(e.target.value) || 1)} /></div>
                     </div>
 
                     {/* 💰 DYNAMIC PRICE BREAKDOWN */}
@@ -1141,7 +1141,6 @@ const Home = () => {
                 {builderStep === 3 && (
                   <form onSubmit={(e) => handleWizardSubmit(e, calculatedTotal, basePricePerPerson)}>
                     {/* Form fields */}
-                    <button type="submit" className="btn btn-dark w-100">Confirm Booking</button>
 
 
                     {/* 📋 FINAL SUMMARY BOX */}

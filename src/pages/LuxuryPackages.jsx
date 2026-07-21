@@ -326,20 +326,24 @@ const LuxuryPackages = () => {
 
 
   return (
-    <div className="luxury-master-wrapper" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+   <div className="luxury-master-wrapper" style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
 
-      {/* CARD GRID DASHBOARD */}
-      {!activePackage && (
-        <div className="container py-5">
-          <div className="d-flex justify-content-between align-items-center mb-5 border-bottom pb-4">
-            <div>
-              <span className="text-muted text-uppercase tracking-widest fs-7">Curated Heritage</span>
-              <h1 className="fw-bold text-uppercase m-0 main-title">All Luxury Packages</h1>
-            </div>
-            <button className="btn btn-outline-dark rounded-pill px-4 py-2 text-uppercase tracking-wider" onClick={() => navigate(-1)}>
-              ← Back to Home
-            </button>
-          </div>
+  {/* CARD GRID DASHBOARD */}
+  {!activePackage && (
+    <div className="container py-4 py-md-5">
+      {/* Responsive Flex Header */}
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4 mb-md-5 border-bottom pb-4">
+        <div>
+          <span className="text-muted text-uppercase tracking-widest fs-7 d-block mb-1">Curated Heritage</span>
+          <h1 className="fw-bold text-uppercase m-0 main-title">All Luxury Packages</h1>
+        </div>
+        <button 
+          className="btn btn-outline-dark rounded-pill px-4 py-2 text-uppercase tracking-wider flex-shrink-0" 
+          onClick={() => navigate(-1)}
+        >
+          ← Back to Home
+        </button>
+      </div>
 
           <div className="row g-4">
             {allPackages.map((pkg) => (
@@ -367,21 +371,38 @@ const LuxuryPackages = () => {
       )}
 
       {/* CORE CUSTOMIZER PIPELINE */}
-      <AnimatePresence>
-        {activePackage && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="customizer-container container py-5">
-            <div className="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom">
-              <div>
-                <button className="btn btn-link text-decoration-none text-muted p-0 mb-2 fs-6 fw-medium" onClick={() => setActivePackage(null)}>
-                  ← Return to Collections
-                </button>
-                <h1 className="fw-bold text-uppercase m-0 customizer-main-title">{activePackage.title}</h1>
-              </div>
-              <div className="text-end">
-                <span className="text-muted fs-7 text-uppercase tracking-wider">Live Active Invoice</span>
-                <h2 className="text-dark fw-bold m-0 text-gradient-gold">${calculateTotal().toLocaleString()}</h2>
-              </div>
-            </div>
+<AnimatePresence>
+  {activePackage && (
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      exit={{ opacity: 0 }} 
+      className="customizer-container container py-4 py-md-5"
+    >
+      {/* Responsive Header Wrapper */}
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4 mb-md-5 pb-3 border-bottom">
+        <div>
+          <button 
+            className="btn btn-link text-decoration-none text-muted p-0 mb-2 fs-6 fw-medium" 
+            onClick={() => setActivePackage(null)}
+          >
+            ← Return to Collections
+          </button>
+          <h1 className="fw-bold text-uppercase m-0 customizer-main-title">
+            {activePackage.title}
+          </h1>
+        </div>
+
+        {/* Mobile: Left-aligned | Desktop: Right-aligned */}
+        <div className="text-start text-sm-end">
+          <span className="text-muted fs-7 text-uppercase tracking-wider d-block">
+            Live Active Invoice
+          </span>
+          <h2 className="text-dark fw-bold m-0 text-gradient-gold">
+            ${calculateTotal().toLocaleString()}
+          </h2>
+        </div>
+      </div>
 
             <div className="row g-5">
               <div className="col-12 col-lg-8">
@@ -447,36 +468,84 @@ const LuxuryPackages = () => {
                 </div>
 
                 {/* 03: HOTEL BRAND & INVENTORY */}
-                <div className="mb-5">
-                  <h4 className="section-step-title"><span>03</span> Luxury Lodging Allocation</h4>
-                  <div className="d-flex flex-column gap-3 mb-4">
-                    {activePackage.hotels.map((hotel, hIdx) => (
-                      <div key={hIdx} className={`custom-select-row d-flex align-items-center p-3 rounded-4 border ${selectedHotel?.name === hotel.name ? 'active-luxury border-dark shadow-sm' : 'border-light-subtle'}`} onClick={() => setSelectedHotel(hotel)}>
-                        <div className="hotel-img-container rounded-3 overflow-hidden me-3"><img src={hotel.img} className="w-100 h-100 object-fit-cover" alt={hotel.name} /></div>
-                        <div className="text-start flex-grow-1">
-                          <span className="badge bg-dark text-white rounded-pill px-2.5 py-1 fs-9 mb-1 text-uppercase tracking-wider">{hotel.stars}</span>
-                          <h5 className="fw-bold m-0 fs-5 text-dark">{hotel.name}</h5>
-                        </div>
-                        <div className="text-end ps-2"><span className="fw-bold fs-5 text-dark">+${hotel.price} <span className="fs-8 text-muted fw-normal">/night</span></span></div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="bg-light p-4 rounded-4 text-start">
-                    <div className="row g-3 align-items-center">
-                      <div className="col-12 col-md-7">
-                        <label className="form-label fw-bold text-muted fs-8 text-uppercase tracking-wider">Select Room Class</label>
-                        <div className="d-flex gap-2">
-                          <button type="button" className={`btn w-50 py-2 rounded-3 fw-bold fs-8 ${roomType === 'simple' ? 'btn-dark' : 'btn-outline-dark bg-white'}`} onClick={() => setRoomType('simple')}>Standard Room</button>
-                          <button type="button" className={`btn w-50 py-2 rounded-3 fw-bold fs-8 ${roomType === 'luxury' ? 'btn-dark' : 'btn-outline-dark bg-white'}`} onClick={() => setRoomType('luxury')}>Luxury Suite (+$250)</button>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-5">
-                        <label className="form-label fw-bold text-muted fs-8 text-uppercase tracking-wider">Room Count</label>
-                        <input type="number" min="1" className="form-control luxury-input-field fw-bold" value={noOfRooms} onChange={(e) => setNoOfRooms(Math.max(1, parseInt(e.target.value) || 1))} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<div className="mb-5">
+  <h4 className="section-step-title"><span>03</span> Luxury Lodging Allocation</h4>
+  
+  <div className="d-flex flex-column gap-3 mb-4">
+    {activePackage.hotels.map((hotel, hIdx) => (
+      <div 
+        key={hIdx} 
+        className={`custom-select-row d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between p-3 rounded-4 border gap-3 ${selectedHotel?.name === hotel.name ? 'active-luxury border-dark shadow-sm' : 'border-light-subtle'}`} 
+        onClick={() => setSelectedHotel(hotel)}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* Left: Image & Hotel Details */}
+        <div className="d-flex align-items-center w-100 w-sm-auto">
+          <div 
+            className="hotel-img-container rounded-3 overflow-hidden me-3 flex-shrink-0" 
+            style={{ width: '75px', height: '75px' }}
+          >
+            <img src={hotel.img} className="w-100 h-100 object-fit-cover" alt={hotel.name} />
+          </div>
+          <div className="text-start flex-grow-1 min-w-0">
+            <span className="badge bg-dark text-white rounded-pill px-2.5 py-1 fs-9 mb-1 text-uppercase tracking-wider">
+              {hotel.stars}
+            </span>
+            <h5 className="fw-bold m-0 fs-6 fs-md-5 text-dark text-truncate" style={{ maxWidth: '220px' }}>
+              {hotel.name}
+            </h5>
+          </div>
+        </div>
+
+        {/* Right: Price Tag (Mobile: Bottom aligned | Desktop: Right aligned) */}
+        <div className="text-start text-sm-end w-100 w-sm-auto border-top border-sm-0 pt-2 pt-sm-0 d-flex justify-content-between justify-content-sm-end align-items-center">
+          <span className="text-muted fs-8 d-sm-none">Price per night:</span>
+          <span className="fw-bold fs-6 fs-sm-5 text-dark">
+            +${hotel.price} <span className="fs-8 text-muted fw-normal">/night</span>
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Room Class & Room Count Controls */}
+  <div className="bg-light p-3 p-md-4 rounded-4 text-start">
+    <div className="row g-3 align-items-center">
+      <div className="col-12 col-md-7">
+        <label className="form-label fw-bold text-muted fs-8 text-uppercase tracking-wider">Select Room Class</label>
+        <div className="d-flex flex-column flex-sm-row gap-2">
+          <button 
+            type="button" 
+            className={`btn w-100 w-sm-50 py-2 rounded-3 fw-bold fs-8 ${roomType === 'simple' ? 'btn-dark' : 'btn-outline-dark bg-white'}`} 
+            onClick={() => setRoomType('simple')}
+          >
+            Standard Room
+          </button>
+          <button 
+            type="button" 
+            className={`btn w-100 w-sm-50 py-2 rounded-3 fw-bold fs-8 ${roomType === 'luxury' ? 'btn-dark' : 'btn-outline-dark bg-white'}`} 
+            onClick={() => setRoomType('luxury')}
+          >
+            Luxury Suite (+$250)
+          </button>
+        </div>
+      </div>
+
+      <div className="col-12 col-md-5">
+        <label className="form-label fw-bold text-muted fs-8 text-uppercase tracking-wider">Room Count</label>
+        <input 
+          type="number" 
+          min="1" 
+          className="form-control luxury-input-field fw-bold" 
+          value={noOfRooms} 
+          onChange={(e) => setNoOfRooms(Math.max(1, parseInt(e.target.value) || 1))} 
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
                 {/* 04: FLIGHT CORRIDOR */}
                 <div className="mb-5">
@@ -779,7 +848,7 @@ const LuxuryPackages = () => {
                       setActivePackage(null);
                     }}
                   >
-                    Back to Collections
+                  Back
                   </button>
                 </div>
               )}

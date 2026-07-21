@@ -705,3 +705,29 @@ body {
   color: var(--text-muted);
   line-height: 1.6;
 }
+
+
+
+/* Mobile Navigation Bar Responsiveness */
+@media (max-width: 576px) {
+  .nav-action-bar {
+    gap: 8px !important;
+  }
+
+  .back-link-btn, 
+  .nav-badge-pill {
+    font-size: 0.78rem !important; /* Mobile font scale */
+    padding: 8px 14px !important;  /* Compact mobile padding */
+    white-space: nowrap !important; /* Text multi-line break hone se rokega */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Icon Size for Mobile */
+  .back-link-btn svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+}

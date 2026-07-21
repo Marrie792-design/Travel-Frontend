@@ -245,24 +245,26 @@ const handleCallSubmit = async (e) => {
     }, [data.images.length]);
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="service-detail-master"
-        >
-            <div className="container custom-container py-4">
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="service-detail-master"
+  >
+    <div className="container custom-container py-3 py-md-4">
 
-                {/* Navigation Bar */}
-                <div className="nav-action-bar mb-4">
-                    <button onClick={() => navigate(-1)} className="back-link-btn">
-                        <ChevronLeftIcon /> Return to Collections
-                    </button>
-                    <div className="nav-badge-pill">
-                        <span className="dot-active"></span> Verified Fleet Asset
-                    </div>
-                </div>
+      {/* Navigation Bar - Responsive Row */}
+      <div className="nav-action-bar d-flex justify-content-between align-items-center gap-2 mb-4">
+        <button onClick={() => navigate(-1)} className="back-link-btn text-nowrap">
+          <ChevronLeftIcon /> Return to Collections
+        </button>
+        <div className="nav-badge-pill text-nowrap flex-shrink-0">
+          <span className="dot-active"></span> Verified Fleet Asset
+        </div>
+      </div>
 
+
+      
                 {/* Hero Slider Section */}
                 <div className="hero-slider-card mb-5">
                     <div className="slider-viewport">
@@ -528,7 +530,7 @@ const handleCallSubmit = async (e) => {
                                                 />
                                             </div>
                                             <div className="col-6">
-                                                <label className="form-label-custom">Direct Phone / VIP Line</label>
+                                                <label className="form-label-custom">Phone Number</label>
                                                 <input
                                                     type="tel"
                                                     required
